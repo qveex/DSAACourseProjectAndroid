@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context=".ClientInfoActivity">
+
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginBottom="5dp"
+        android:background="#00FFFFFF"
+        android:onClick="onClickBack"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sim_content"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/arrow_left_ic" />
+
+    <include
+        android:id="@+id/sim_content"
+        layout="@layout/main_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="248dp"
+        android:layout_marginBottom="57dp"
+        android:background="#00323131"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/address"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageButton
+        android:id="@+id/addButton"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="5dp"
+        android:background="#00FFFFFF"
+        android:onClick="onClickAdd"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sim_content"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/plus_ic" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="55dp"
+        android:background="#505050"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sim_content"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <View
+        android:id="@+id/secondDivider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="40dp"
+        android:background="#505050"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/address"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <View
+        android:id="@+id/thirdDivider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="10dp"
+        android:background="#505050"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/address"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/addLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="40dp"
+        android:fontFamily="@font/comfortaa"
+        android:text="Информация о клиенте"
+        android:textColor="#C3C3C3"
+        android:textSize="26sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/placeAndDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/comfortaa"
+        android:text="placeAndDate"
+        android:textColor="#C3C3C3"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passport"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/comfortaa"
+        android:text="name"
+        android:textColor="#C3C3C3"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addLabel"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/passport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/comfortaa"
+        android:text="passport"
+        android:textColor="#C3C3C3"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/yearOfBirth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/comfortaa"
+        android:text="yearOfBirth"
+        android:textColor="#C3C3C3"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/name"
+        app:layout_constraintTop_toBottomOf="@+id/addLabel"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/comfortaa"
+        android:text="address"
+        android:textColor="#C3C3C3"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/placeAndDate"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageButton
+        android:id="@+id/removeButton"
+        android:layout_width="43dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="210dp"
+        android:layout_marginBottom="5dp"
+        android:background="#00FFFFFF"
+        android:onClick="onClickRemove"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/addButton"
+        app:layout_constraintStart_toEndOf="@+id/backButton"
+        app:layout_constraintTop_toBottomOf="@+id/sim_content"
+        app:layout_constraintVertical_bias="0.75"
+        app:srcCompat="@drawable/delete_ic" />
+
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="@font/comfortaa"
+        android:text="info"
+        android:textColor="@color/simpleTextColor"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/secondDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/address"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/mainMenu"
+        android:layout_width="43dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="#00FFFFFF"
+        android:onClick="onClickMenu"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/addButton"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toEndOf="@+id/backButton"
+        app:layout_constraintTop_toBottomOf="@+id/sim_content"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/fill_menu_white_ic" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="409dp"
+        android:layout_height="56dp"
+        android:background="#323131"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="50dp"
+            android:background="#505050" />
+
+        <ImageButton
+            android:id="@+id/clientButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="75dp"
+            android:layout_marginBottom="8dp"
+            android:background="#00FFFFFF"
+            android:onClick="onClickClient"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/client_ic" />
+
+        <ImageButton
+            android:id="@+id/simButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="289dp"
+            android:layout_marginEnd="75dp"
+            android:layout_marginBottom="8dp"
+            android:background="#00FFFFFF"
+            android:onClick="onClickSim"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/sim_ic" />
+
+        <ImageButton
+            android:id="@+id/addButton"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="181dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="182dp"
+            android:layout_marginBottom="7dp"
+            android:background="#00FFFFFF"
+            android:onClick="onClickAdd"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/plus_ic" />
+
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/main_content"
+        layout="@layout/main_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="56dp"
+        android:background="#00323131"
+        app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <EditText
+        android:id="@+id/search"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="55dp"
+        android:layout_marginBottom="5dp"
+        android:background="#505050"
+        android:capitalize="none"
+        android:ems="10"
+        android:fontFamily="@font/comfortaa"
+        android:hint="  Поиск"
+        android:inputType="text|textCapSentences"
+        android:textAllCaps="false"
+        android:textColor="#C3C3C3"
+        android:textColorHint="#7E7E7E"
+        app:layout_constraintBottom_toTopOf="@+id/main_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/searchImage"
+        android:layout_width="45dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/main_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.888"
+        app:layout_constraintStart_toEndOf="@+id/search"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.833"
+        app:srcCompat="@drawable/search_ic_white" />
+
+    <ImageButton
+        android:id="@+id/removeButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="55dp"
+        android:background="#00FFFFFF"
+        android:onClick="onClickRemove"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/main_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/delete_ic" />
+
+    <Button
+        android:id="@+id/removeAllButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="250dp"
+        android:background="#00FFFFFF"
+        android:fontFamily="@font/comfortaa"
+        android:onClick="onClickRemoveAll"
+        android:text="удалить все"
+        android:textColor="@color/simpleTextColor"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/main_content"
+        app:layout_constraintEnd_toStartOf="@+id/removeButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.224" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
