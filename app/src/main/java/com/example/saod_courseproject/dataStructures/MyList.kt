@@ -97,9 +97,8 @@ class MyList<T> : MutableList<T> {
         return -1
     }
 
-    override fun isEmpty(): Boolean {
-        return size == 0
-    }
+    override fun isEmpty() = size == 0
+    fun isNotEmpty() = size != 0
 
     override fun iterator(): MutableIterator<T> {
         return ElementsIterator(0)
@@ -183,7 +182,6 @@ class MyList<T> : MutableList<T> {
 
     fun sort(list: MyList<SIMInfo>) {
         for (i in 0 until list.size) {
-            println(i)
             for (j in i + 1 until list.size)
                 if (list[i].simNumber < list[j].simNumber)
                     list[i] = list[j].also { list[j] = list[i] }

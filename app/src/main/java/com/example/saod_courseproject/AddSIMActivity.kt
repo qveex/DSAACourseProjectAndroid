@@ -50,7 +50,7 @@ class AddSIMActivity : AppCompatActivity() {
         val fields = MyList<EditText>()
         if (yearOfIssue.text.toString().length != 4 || yearOfIssue.text.toString().toInt() < 2000 || yearOfIssue.text.toString().toInt() > 2021) fields.add(yearOfIssue)
         if (tariff.text.isEmpty()) fields.add(tariff)
-        if (Regex("^\\d{3}-\\d{7}").find(simNumber.text) == null) fields.add(simNumber)
+        if (Regex("^\\d{3}-\\d{7}").find(simNumber.text) == null || !mobileOperator.findSIMByNumber(simNumber.text.toString()).isEmpty()) fields.add(simNumber)
         return if (fields.isEmpty()) true
         else {
             highlightIncorrectFields(fields)

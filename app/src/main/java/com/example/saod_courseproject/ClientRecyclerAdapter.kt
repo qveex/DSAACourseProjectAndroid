@@ -51,28 +51,7 @@ class ClientRecyclerAdapter <T>(private val listT: MyList<T>, private val contex
             placeAndDate.text = item.placeAndDateOfIssueOfThePassport
             yearOfBirth.text = item.yearOfBirth.toString()
 
-            itemView.setOnClickListener {
-                val intent = Intent(context, ClientInfoActivity::class.java).apply {
-                    putExtra("passport", item.passportNumber)
-                    putExtra("place", item.placeAndDateOfIssueOfThePassport)
-                    putExtra("name", item.name)
-                    putExtra("year", item.yearOfBirth.toString())
-                    putExtra("address", item.address)
-                }
-                context.startActivity(intent)
-            }
-            itemView.setOnLongClickListener {
-                changeColor(Color.argb(64, 255, 0, 0))
-
-                if (!selectedClient.contains(item)) selectedClient.add(item)
-                else selectedClient.remove(item)
-                (context as MainActivity).apply {
-                    if (selectedClient.isEmpty()) this.showTopMenu()
-                    else hideTopMenu()
-                }
-                return@setOnLongClickListener true
-            }
-
+            clientOnClickListener(item, context)
         }
         fun bind(item: SIM, context: Context) {
             name.text = item.simNumber
@@ -82,34 +61,101 @@ class ClientRecyclerAdapter <T>(private val listT: MyList<T>, private val contex
             itemView.address.textSize = 0F
             with(item.isUse) { if (this) yearOfBirth.text = "Используется" else yearOfBirth.text = "Не используется" }
 
-            itemView.setOnClickListener {
-                changeColor(Color.argb(32, 0, 0, 255))
-                if (!selectedSIM.contains(item)) selectedSIM.add(item)
-                else selectedSIM.remove(item)
-            }
+            simOnClickListener(item, context)
         }
         fun bind(item: SIMInfo, context: Context) {
             name.text = "Номер сим-карты: " + item.simNumber
             passport.text = "Номер паспорта: " + item.passportNumber
             placeAndDate.text = "Дата выдачи: " + item.dateOfIssue
             address.text = "Дата окончания: " + item.expirationDate
-            yearOfBirth.text =  "#" + (position + 1).toString()
+            yearOfBirth.text = "#" + (position + 1).toString()
 
             itemView.setOnClickListener {
                 changeColor(Color.argb(32, 0, 0, 255))
                 val s = selectedInfo.size //
                 if (selectedInfo.contains(item)) selectedInfo.remove(item)
                 else selectedInfo.add(item)
-                if (selectedInfo.size == 1 && s == 0) (context as ClientInfoActivity).apply { centreButtonChange(true) } //
-                if (selectedInfo.size == 0 && s == 1) (context as ClientInfoActivity).apply { centreButtonChange(false) } //
+                if (selectedInfo.size == 1 && s == 0) (context as ClientInfoActivity).apply {
+                    centreButtonChange(
+                        true
+                    )
+                } //
+                if (selectedInfo.size == 0 && s == 1) (context as ClientInfoActivity).apply {
+                    centreButtonChange(
+                        false
+                    )
+                } //
                 it.isEnabled = false
-                object: CountDownTimer(250, 50) {
-                    override fun onTick(p0: Long) { }
-                    override fun onFinish() { it.isEnabled = true }
+                object : CountDownTimer(250, 50) {
+                    override fun onTick(p0: Long) {}
+                    override fun onFinish() {
+                        it.isEnabled = true
+                    }
                 }.start()
             }
         }
 
+
+        private fun clientOnClickListener(item: Client, context: Context) {
+            itemView.setOnClickListener {
+                if (selectedClient.isEmpty()) {
+                    val intent = Intent(context, ClientInfoActivity::class.java).apply {
+                        putExtra("passport", item.passportNumber)
+                        putExtra("place", item.placeAndDateOfIssueOfThePassport)
+                        putExtra("name", item.name)
+                        putExtra("year", item.yearOfBirth.toString())
+                        putExtra("address", item.address)
+                    }
+                    context.startActivity(intent)
+                } else {
+                    changeColor(Color.argb(64, 255, 0, 0))
+                    clientSelectMain(item, context)
+                }
+            }
+            itemView.setOnLongClickListener {
+                changeColor(Color.argb(64, 255, 0, 0))
+                clientSelectMain(item, context)
+                return@setOnLongClickListener true
+            }
+        }
+        private fun simOnClickListener(item: SIM, context: Context) {
+            if (context is MainActivity) {
+                itemView.setOnClickListener {
+                    if (!selectedSIM.isEmpty()) {
+                        changeColor(Color.argb(64, 255, 0, 0))
+                        simSelectMain(item, context)
+                    }
+                }
+                itemView.setOnLongClickListener {
+                    changeColor(Color.argb(64, 255, 0, 0))
+                    simSelectMain(item, context)
+                    return@setOnLongClickListener true
+                }
+            } else {
+                itemView.setOnClickListener {
+                    changeColor(Color.argb(32, 0, 0, 255))
+                    if (!selectedSIM.contains(item)) selectedSIM.add(item)
+                    else selectedSIM.remove(item)
+                }
+            }
+        }
+
+        private fun clientSelectMain(item: Client, context: Context) {
+            if (!selectedClient.contains(item)) selectedClient.add(item)
+            else selectedClient.remove(item)
+            (context as MainActivity).apply {
+                if (selectedClient.isEmpty()) this.showTopMenu()
+                else hideTopMenu()
+            }
+        }
+        private fun simSelectMain(item: SIM, context: Context) {
+            if (!selectedSIM.contains(item)) selectedSIM.add(item)
+            else selectedSIM.remove(item)
+            (context as MainActivity).apply {
+                if (selectedSIM.isEmpty()) this.showTopMenu()
+                else hideTopMenu()
+            }
+        }
 
         private fun changeColor(color: Int) {
             selected = !selected

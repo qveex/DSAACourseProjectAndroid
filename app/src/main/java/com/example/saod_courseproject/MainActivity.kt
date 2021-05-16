@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import controller.MobileOperator
@@ -28,6 +29,12 @@ class MainActivity : AppCompatActivity() {
         listFilling()
         searchTextChanged()
     }
+
+
+
+
+
+
 
     private fun searchTextChanged() {
         search.doAfterTextChanged {
@@ -62,14 +69,20 @@ class MainActivity : AppCompatActivity() {
         MainList.adapter = ClientRecyclerAdapter(mobileOperator.getAllSIM(), this)
     }
     fun onClickRemove(view: View) {
-        ClientRecyclerAdapter.selectedClient.forEach {
-            mobileOperator.removeClientFromService(it.passportNumber)
+        if (ClientRecyclerAdapter.selectedClient.isNotEmpty()) {
+            ClientRecyclerAdapter.selectedClient.forEach { mobileOperator.removeClientFromService(it.passportNumber) }
         }
+        else if (ClientRecyclerAdapter.selectedSIM.isNotEmpty()) {
+            ClientRecyclerAdapter.selectedSIM.forEach { mobileOperator.removeSIM(it.simNumber) }
+        }
+        ClientRecyclerAdapter.clearLists()
         listFilling()
         showTopMenu()
     }
     fun onClickRemoveAll(view: View) {
-        mobileOperator.clearAllClients()
+        if (ClientRecyclerAdapter.selectedClient.isNotEmpty()) mobileOperator.clearAllClients()
+        else if(ClientRecyclerAdapter.selectedSIM.isNotEmpty()) mobileOperator.clearAllSIM()
+        ClientRecyclerAdapter.clearLists()
         listFilling()
     }
 
@@ -101,12 +114,22 @@ class MainActivity : AppCompatActivity() {
 
             removeAllButton.animate().apply {
                 duration = 300
-                translationYBy(110F)
+                translationYBy(150F)
             }
             removeButton.animate().apply {
                 duration = 300
-                translationYBy(90F)
+                translationYBy(120F)
             }
+
+            /* зачем? (why?) */
+
+            removeAllButton.isVisible = false
+            searchImage.isVisible = false
+            removeAllButton.text = "Удалить всё"
+            searchImage.setImageResource(R.drawable.search_ic_white)
+            Thread.sleep(1)
+            removeAllButton.isVisible = true
+            searchImage.isVisible = true
         }
     }
     fun showTopMenu() {
@@ -123,11 +146,11 @@ class MainActivity : AppCompatActivity() {
 
             removeAllButton.animate().apply {
                 duration = 300
-                translationYBy(-110F)
+                translationYBy(-150F)
             }
             removeButton.animate().apply {
                 duration = 300
-                translationYBy(-90F)
+                translationYBy(-120F)
             }
         }
     }

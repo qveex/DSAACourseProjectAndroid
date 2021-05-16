@@ -35,12 +35,13 @@ class MyHashMap<K, V> :  MutableMap<K, V> {
     }
 
     override fun get(key: K): V? {
-        return table[doubleHash(key) % size]?.value
+        val hash = find(key)
+        return if (hash != null) table[hash % size]?.value
+        else null
     }
 
-    override fun isEmpty(): Boolean {
-        return elements == 0
-    }
+    override fun isEmpty() = elements == 0
+    fun isNotEmpty() = elements != 0
 
     override val entries: MutableSet<MutableMap.MutableEntry<K, V>>
         get() {
@@ -83,10 +84,13 @@ class MyHashMap<K, V> :  MutableMap<K, V> {
     }
 
     override fun remove(key: K): V? {
-        val hash = doubleHash(key)
-        val oldElement = table[hash % size]?.value
-        table[hash % size] = null
-        elements--
+        var oldElement: V? = null
+        val hash = find(key)
+        if (hash != null) {
+            oldElement = table[hash % size]?.value
+            table[hash % size] = null
+            elements--
+        }
         return oldElement
     }
 
@@ -110,7 +114,7 @@ class MyHashMap<K, V> :  MutableMap<K, V> {
 
     private fun doubleHash(key: K): Int {
         var hash = abs(key.hashCode())
-        var num = 1
+        var num = 0
         while (table[hash % size] != null && table[hash % size]?.key != key) {
             num++
             hash = abs(key.hashCode() + 3 * num + 2 * num * num)
@@ -118,6 +122,19 @@ class MyHashMap<K, V> :  MutableMap<K, V> {
         }
         return hash
     }
+
+    private fun find(key: K): Int? {
+        var hash = abs(key.hashCode())
+        var num = 0
+        while (table[hash % size]?.key != key) {
+            num++
+            hash = abs(key.hashCode() + 3 * num + 2 * num * num)
+            if (hash > size) hash %= size
+            if (num == size / 2) return null
+        }
+        return hash
+    }
+
 
 
 

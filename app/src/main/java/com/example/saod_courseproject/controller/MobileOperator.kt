@@ -30,7 +30,6 @@ class MobileOperator {
         simList["777-7777777"] = SIM("777-7777777", "Звонки за границами", 2010, false)
 
         simInfo.add(SIMInfo("1234-321000", "123-1234567", "12.12.2013", "12.12.2023"))
-        simInfo.add(SIMInfo("2288-133722", "228-7654321", "11.11.2014", "11.11.2024"))
         simInfo.add(SIMInfo("3210-321111", "321-1337228", "10.10.2014", "10.10.2024"))
         simInfo.add(SIMInfo("1234-123345", "123-7777777", "22.06.2019", "22.06.2029"))
         simInfo.add(SIMInfo("2222-222222", "222-6666666", "01.01.2012", "01.01.2022"))
@@ -41,12 +40,16 @@ class MobileOperator {
     fun addNewClient(client: Client) = clients.put(client.passportNumber, client)
 
     fun removeClientFromService(passport: String) {
-        simInfo.forEach {
-            if (it.passportNumber == passport) {
-                simList[it.simNumber]?.isUse = false
-                simInfo.remove(it)
+
+        val tmp = MyList<SIMInfo>().apply {
+            simInfo.forEach {
+                if (it.passportNumber == passport) {
+                    simList[it.simNumber]?.isUse = false
+                    this.add(it)
+                }
             }
         }
+        simInfo.removeAll(tmp)
         clients.remove(passport)
     }
 
@@ -76,13 +79,20 @@ class MobileOperator {
 
     fun addSIM(sim: SIM) = simList.put(sim.simNumber, sim)
 
-    fun removeSIM() {
-        TODO()
+    fun removeSIM(simNumber: String) {
+        val tmp = MyList<SIMInfo>().apply {
+            simInfo.forEach { if (it.simNumber == simNumber) this.add(it) }
+        }
+        simInfo.removeAll(tmp)
+        simList.remove(simNumber)
     }
 
     fun getAllSIM() = MyList(simList.values)
 
-    fun clearAllSIM() = simList.clear()
+    fun clearAllSIM() {
+        simInfo.clear()
+        simList.clear()
+    }
 
     fun findSIM(value: String) = MyList<SIM>().apply {
         simList.forEach {

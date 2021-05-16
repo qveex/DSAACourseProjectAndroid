@@ -42,13 +42,13 @@ class AddClientActivity : AppCompatActivity() {
 
             doge.animate().apply {
                 duration = 500
-                translationXBy(110F)
+                translationXBy(150F)
 
             }.withEndAction {
                 doge.animate().apply {
                     startDelay = 500
                     duration = 500
-                    translationXBy(-110F)
+                    translationXBy(-150F)
                 }.start()
             }
         }
@@ -70,7 +70,7 @@ class AddClientActivity : AppCompatActivity() {
         if (yearOfBirth.text.isNotEmpty()) {
             if (yearOfBirth.text.toString().toInt() < 1900 || yearOfBirth.text.toString().toInt() > 2021) fields.add(yearOfBirth)
         } else fields.add(yearOfBirth)
-        if (Regex("^\\d{4}-\\d{6}").find(passport.text) == null) fields.add(passport)
+        if (Regex("^\\d{4}-\\d{6}").find(passport.text) == null || !mobileOperator.findClientByPassport(passport.text.toString()).isEmpty()) fields.add(passport)
         if (placeAndDate.text.isEmpty()) fields.add(placeAndDate)
         if (address.text.isEmpty()) fields.add(address)
         return if (fields.isEmpty()) true

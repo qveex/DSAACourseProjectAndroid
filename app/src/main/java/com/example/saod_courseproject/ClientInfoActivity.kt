@@ -2,6 +2,7 @@ package com.example.saod_courseproject
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -53,22 +54,6 @@ class ClientInfoActivity : AppCompatActivity() {
             //removeButton.setImageResource(R.drawable.menu_white_ic)
         }
     }
-    /*fun onClickRemove(view: View) {
-        if (currentList == 1) {
-            ClientRecyclerAdapter.selectedInfo.forEach{ mobileOperator.removeSIMFromClient(it.simNumber) }
-            MainList.adapter = ClientRecyclerAdapter(mobileOperator.findSIMByPassport(passport.text.toString()), this)
-            ClientRecyclerAdapter.selectedInfo.clear()
-        } else {
-            currentList = 1
-            info.text = "сим-карты пользователя"
-            ClientRecyclerAdapter.selectedInfo.clear()
-            MainList.adapter = ClientRecyclerAdapter(mobileOperator.findSIMByPassport(passport.text.toString()), this)
-            addButton.setImageResource(R.drawable.plus_ic)
-            removeButton.setImageResource(R.drawable.delete_ic)
-        }
-    }*/
-
-
 
     fun onClickRemove(view: View) {
         ClientRecyclerAdapter.selectedInfo.forEach { mobileOperator.removeSIMFromClient(it.simNumber) }
@@ -85,9 +70,16 @@ class ClientInfoActivity : AppCompatActivity() {
         MainList.adapter = ClientRecyclerAdapter(mobileOperator.findSIMByPassport(passport.text.toString()), this)
         addButton.setImageResource(R.drawable.plus_ic)
         mainMenu.setImageResource(R.drawable.fill_menu_white_ic)
+
+        /* зачем? */
+
         removeButton.setImageResource(R.drawable.delete_ic)
         removeButton.isVisible = false
         removeButton.isVisible = true
+        Thread.sleep(1)
+        removeButton.isVisible = false
+        removeButton.isVisible = true
+        removeButton.setImageResource(R.drawable.delete_ic)
     }
 
 
@@ -95,7 +87,7 @@ class ClientInfoActivity : AppCompatActivity() {
         if (remove) {
             removeButton.animate().apply {
                 duration = 250
-                translationYBy(-100F)
+                translationYBy(-140F)
             }
             mainMenu.animate().apply {
                 duration = 250
@@ -104,7 +96,7 @@ class ClientInfoActivity : AppCompatActivity() {
         } else {
             removeButton.animate().apply {
                 duration = 250
-                translationYBy(100F)
+                translationYBy(140F)
             }
             mainMenu.animate().apply {
                 duration = 250
