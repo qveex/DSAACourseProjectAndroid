@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import data.SIM
 import dataStructures.MyList
@@ -32,7 +33,10 @@ class AddSIMActivity : AppCompatActivity() {
                 yearOfIssue.text.toString().toInt(),
             )
             mobileOperator.addSIM(sim)
+            Toast.makeText(this, "Сим-карта ${sim.simNumber} добавлена", Toast.LENGTH_LONG).show()
             onBackPressed()
+        } else {
+            Toast.makeText(this, "Некорректные данные", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -47,9 +51,15 @@ class AddSIMActivity : AppCompatActivity() {
     }
 
     private fun fieldsIsCorrect(): Boolean {
+
+
+        // запретить ввод чисел > или < пограничных значений (год)
+        // + сообщение о некоректности
+
+
         val fields = MyList<EditText>()
-        if (yearOfIssue.text.toString().length != 4 || yearOfIssue.text.toString().toInt() < 2000 || yearOfIssue.text.toString().toInt() > 2021) fields.add(yearOfIssue)
-        if (tariff.text.isEmpty()) fields.add(tariff)
+        if (yearOfIssue.text.toString().length != 4 || yearOfIssue.text.toString().toInt() < 1991 || yearOfIssue.text.toString().toInt() > 2021) fields.add(yearOfIssue)
+        if (tariff.text.toString().replace(" ", "").isEmpty()) fields.add(tariff)
         if (Regex("^\\d{3}-\\d{7}").find(simNumber.text) == null || !mobileOperator.findSIMByNumber(simNumber.text.toString()).isEmpty()) fields.add(simNumber)
         return if (fields.isEmpty()) true
         else {

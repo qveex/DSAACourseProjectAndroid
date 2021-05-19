@@ -1,8 +1,5 @@
 package dataStructures
 
-import android.util.Log
-import android.widget.Toast
-import com.example.saod_courseproject.MainActivity
 import java.security.MessageDigest
 import kotlin.collections.HashSet
 import kotlin.math.abs
@@ -23,7 +20,7 @@ class MyHashMap<K, V> :  MutableMap<K, V> {
     private var table = arrayOfNulls<Node<K, V>>(16)
     private var elements = 0
     override val size: Int
-        get() = table.size
+        get() = elements
 
     override fun containsKey(key: K): Boolean {
         return table[doubleHash(key)] != null
@@ -36,7 +33,7 @@ class MyHashMap<K, V> :  MutableMap<K, V> {
 
     override fun get(key: K): V? {
         val hash = find(key)
-        return if (hash != null) table[hash % size]?.value
+        return if (hash != null) table[hash % table.size]?.value
         else null
     }
 
@@ -65,16 +62,16 @@ class MyHashMap<K, V> :  MutableMap<K, V> {
         }
 
     override fun clear() {
-        table = arrayOfNulls(10)
+        table = arrayOfNulls(16)
         elements = 0
     }
 
     override fun put(key: K, value: V): V? {
         val hash = doubleHash(key)
         //val hash = if (key is String) doubleHashString(key) else doubleHash(key)
-        val oldElement = table[hash % size]?.value
+        val oldElement = table[hash % table.size]?.value
         resize()
-        table[hash % size] = Node(key, value)
+        table[hash % table.size] = Node(key, value)
         elements++
         return oldElement
     }
@@ -87,8 +84,8 @@ class MyHashMap<K, V> :  MutableMap<K, V> {
         var oldElement: V? = null
         val hash = find(key)
         if (hash != null) {
-            oldElement = table[hash % size]?.value
-            table[hash % size] = null
+            oldElement = table[hash % table.size]?.value
+            table[hash % table.size] = null
             elements--
         }
         return oldElement
@@ -102,8 +99,8 @@ class MyHashMap<K, V> :  MutableMap<K, V> {
     }
 
     private fun resize() {
-        if ((elements.toDouble() / size) * 100 >= 70) {
-            val newTable = arrayOfNulls<Node<K, V>>(size * 2)
+        if ((elements.toDouble() / table.size) * 100 >= 70) {
+            val newTable = arrayOfNulls<Node<K, V>>(table.size * 2)
             table.forEach {
                 if (it != null)
                     newTable[doubleHash(it.key) % newTable.size] = it
@@ -115,10 +112,12 @@ class MyHashMap<K, V> :  MutableMap<K, V> {
     private fun doubleHash(key: K): Int {
         var hash = abs(key.hashCode())
         var num = 0
-        while (table[hash % size] != null && table[hash % size]?.key != key) {
+        while (table[hash % table.size] != null && table[hash % table.size]?.key != key) {
             num++
-            hash = abs(key.hashCode() + 3 * num + 2 * num * num)
-            if (hash > size) hash %= size
+            hash = if (key is String) abs(myHash(key) + 7 * key.hashCode() + num)
+            else abs(key.hashCode() + 3 * num + 2 * num * num)
+            //hash = abs(key.hashCode() + 3 * num + 2 * num * num)
+            if (hash > table.size) hash %= table.size
         }
         return hash
     }
@@ -126,37 +125,26 @@ class MyHashMap<K, V> :  MutableMap<K, V> {
     private fun find(key: K): Int? {
         var hash = abs(key.hashCode())
         var num = 0
-        while (table[hash % size]?.key != key) {
+        while (table[hash % table.size]?.key != key) {
             num++
-            hash = abs(key.hashCode() + 3 * num + 2 * num * num)
-            if (hash > size) hash %= size
-            if (num == size / 2) return null
+            hash = if (key is String) abs(myHash(key) + 7 * key.hashCode() + num)
+            else abs(key.hashCode() + 3 * num + 2 * num * num)
+            //hash = abs(key.hashCode() + 3 * num + 2 * num * num)
+            if (hash > table.size) hash %= table.size
+            if (num == table.size / 2) return null
         }
         return hash
     }
 
 
 
-
-
-
-    private fun doubleHashString(key: String): Int {
-        var hash = abs(myHash(key))
-        var num = 1
-        while (table[hash % size] != null && table[hash % size]?.key != key) {
-            num++
-            hash = abs(myHash(key) + 3 * num + 2 * num * num)
-            if (hash > size) hash %= size
-        }
-        return hash
-    }
 
     private fun myHash(key: String): Int {
         var myHashCode = 0
         for (element in key)
             myHashCode += (Math.pow(element.toDouble(), 2.0)).toInt()
 
-        myHashCode *= key[5].toInt() + key[6].toInt() - key[1].toInt() - key[7].toInt() * key[7].toInt() * key[8].toInt() / key[9].toInt()
+        myHashCode *= key[5].toInt() + key[6].toInt() - key[1].toInt() - key[7].toInt() * key[2].toInt() * key[8].toInt() / key[9].toInt()
         myHashCode += key[4].toInt() + key[0].toInt() * key[8].toInt() / key[7].toInt() + key[10].toInt()
         myHashCode += (Math.pow(key[5].toDouble(), 3.0) + Math.pow(key[2].toDouble(), 2.0)).toInt() / key[7].toInt()
         myHashCode += (Math.pow(key[9].toDouble(), 4.0) - Math.pow(key[4].toDouble(), 3.0)).toInt() + key[8].toInt()

@@ -32,7 +32,7 @@
         android:background="#505050"
         android:ems="10"
         android:fontFamily="@font/comfortaa"
-        android:hint=" Имя"
+        android:hint="ФИО"
         android:inputType="textPersonName|textCapSentences"
         android:textColor="#C3C3C3"
         android:textColorHint="#7E7E7E"

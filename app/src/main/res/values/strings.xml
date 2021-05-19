@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">SAOD_CourseProject</string>
-    <string name="sim_number">Номер сим-карты: %1$s</string>
-    <string name="passport">Номер паспорта: %1$s</string>
-    <string name="dateOfIssue">Дата выдачи: %1$s</string>
-    <string name="expirationDate">Дата окончания: %1$s</string>
+    <string name="sim_number">Сим-карты: %1$s</string>
+    <string name="placeAndDate">Выдали: %1$s</string>
+    <string name="address">Адрес: %1$s</string>
+    <string name="name">ФИО: %1$s</string>
+    <string name="yearOfBirth">Год рождения:\n\t\t\t\t\t\t\t\t\t\t\t\t%1$s</string>
+    <string name="passport">Паспорт: %1$s</string>
+    <string name="dateOfIssue">Выдача: %1$s</string>
+    <string name="expirationDate">Окончание: %1$s</string>
 </resources>

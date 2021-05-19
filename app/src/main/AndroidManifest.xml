@@ -4,7 +4,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/billy"
+        android:icon="@drawable/suai_ic"
         android:label="SAOD"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"

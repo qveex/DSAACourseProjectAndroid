@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.CountDownTimer
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,6 @@ import dataStructures.MyList
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.recyclerview_clientitem.view.*
 import java.util.*
-import kotlin.concurrent.thread
 
 
 class ClientRecyclerAdapter <T>(private val listT: MyList<T>, private val context: Context) :
@@ -45,49 +43,43 @@ class ClientRecyclerAdapter <T>(private val listT: MyList<T>, private val contex
         private var selected = false
 
         fun bind(item: Client, context: Context) {
-            passport.text = item.passportNumber
-            name.text = item.name
-            address.text = item.address
-            placeAndDate.text = item.placeAndDateOfIssueOfThePassport
-            yearOfBirth.text = item.yearOfBirth.toString()
+            passport.text = "Паспорт: ${item.passportNumber}"
+            name.text = "ФИО: " + item.name
+            address.text = "Адрес: " + item.address
+            placeAndDate.text = "Выдали: " + item.placeAndDateOfIssueOfThePassport
+            yearOfBirth.text = "Год рождения:\n\t\t\t\t\t\t\t\t\t\t\t\t" + item.yearOfBirth.toString()
 
             clientOnClickListener(item, context)
         }
         fun bind(item: SIM, context: Context) {
-            name.text = item.simNumber
-            passport.text = item.tariff
-            placeAndDate.text = item.yearOfIssue.toString()
+            name.text = "Сим-карта: " + item.simNumber
+            passport.text = "Тариф: " + item.tariff
+            placeAndDate.text = "Выпустили в " + item.yearOfIssue.toString()
             address.text = ""
             itemView.address.textSize = 0F
-            with(item.isUse) { if (this) yearOfBirth.text = "Используется" else yearOfBirth.text = "Не используется" }
+            with(item.isUse) { if (this) yearOfBirth.text = "Исп." else yearOfBirth.text = "Не исп." }
+
 
             simOnClickListener(item, context)
         }
         fun bind(item: SIMInfo, context: Context) {
-            name.text = "Номер сим-карты: " + item.simNumber
-            passport.text = "Номер паспорта: " + item.passportNumber
-            placeAndDate.text = "Дата выдачи: " + item.dateOfIssue
-            address.text = "Дата окончания: " + item.expirationDate
+            name.text = "Сим-карта: " + item.simNumber
+            passport.text = "Паспорт: " + item.passportNumber
+            placeAndDate.text = "Выдали: " + item.dateOfIssue
+            address.text = "Окончание: " + item.expirationDate
             yearOfBirth.text = "#" + (position + 1).toString()
 
             itemView.setOnClickListener {
                 changeColor(Color.argb(32, 0, 0, 255))
-                val s = selectedInfo.size //
+                val s = selectedInfo.size
                 if (selectedInfo.contains(item)) selectedInfo.remove(item)
                 else selectedInfo.add(item)
-                if (selectedInfo.size == 1 && s == 0) (context as ClientInfoActivity).apply {
-                    centreButtonChange(
-                        true
-                    )
-                } //
-                if (selectedInfo.size == 0 && s == 1) (context as ClientInfoActivity).apply {
-                    centreButtonChange(
-                        false
-                    )
-                } //
+
+                if (selectedInfo.size == 1 && s == 0) (context as ClientInfoActivity).apply { centreButtonChange(true) }
+                if (selectedInfo.size == 0 && s == 1) (context as ClientInfoActivity).apply { centreButtonChange(false) }
                 it.isEnabled = false
                 object : CountDownTimer(250, 50) {
-                    override fun onTick(p0: Long) {}
+                    override fun onTick(p0: Long) { }
                     override fun onFinish() {
                         it.isEnabled = true
                     }
@@ -141,16 +133,16 @@ class ClientRecyclerAdapter <T>(private val listT: MyList<T>, private val contex
         }
 
         private fun clientSelectMain(item: Client, context: Context) {
-            if (!selectedClient.contains(item)) selectedClient.add(item)
-            else selectedClient.remove(item)
+            if (selectedClient.contains(item)) selectedClient.remove(item)
+            else selectedClient.add(item)
             (context as MainActivity).apply {
                 if (selectedClient.isEmpty()) this.showTopMenu()
                 else hideTopMenu()
             }
         }
         private fun simSelectMain(item: SIM, context: Context) {
-            if (!selectedSIM.contains(item)) selectedSIM.add(item)
-            else selectedSIM.remove(item)
+            if (selectedSIM.contains(item)) selectedSIM.remove(item)
+            else selectedSIM.add(item)
             (context as MainActivity).apply {
                 if (selectedSIM.isEmpty()) this.showTopMenu()
                 else hideTopMenu()
@@ -165,9 +157,13 @@ class ClientRecyclerAdapter <T>(private val listT: MyList<T>, private val contex
     }
 
 
+
+
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClientViewHolder {
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.recyclerview_clientitem, parent, false)
+
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.recyclerview_clientitem, parent, false)
         return ClientViewHolder(itemView)
     }
     override fun onBindViewHolder(holder: ClientViewHolder, position: Int) {

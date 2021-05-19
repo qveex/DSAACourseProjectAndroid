@@ -2,8 +2,8 @@ package com.example.saod_courseproject
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,17 +18,17 @@ class ClientInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_client_info)
 
-        info.text = "сим-карты пользователя"
-        passport.text = intent.getStringExtra("passport")
-        placeAndDate.text = intent.getStringExtra("place")
-        name.text = intent.getStringExtra("name")
-        yearOfBirth.text = intent.getStringExtra("year")
-        address.text = intent.getStringExtra("address")
+        info.text = "сим-карты клиента"
+        passport.text = getString(R.string.passport, intent.getStringExtra("passport"))
+        placeAndDate.text = getString(R.string.placeAndDate, intent.getStringExtra("place"))
+        name.text = getString(R.string.name, intent.getStringExtra("name"))
+        yearOfBirth.text = getString(R.string.yearOfBirth, intent.getStringExtra("year"))
+        address.text = getString(R.string.address, intent.getStringExtra("address"))
 
 
         MainList.hasFixedSize()
         MainList.layoutManager = LinearLayoutManager(this)
-        MainList.adapter = ClientRecyclerAdapter(mobileOperator.findSIMByPassport(passport.text.toString()), this)
+        MainList.adapter = ClientRecyclerAdapter(mobileOperator.findSIMByPassport(passport.text.toString().removePrefix("Паспорт: ")), this)
     }
 
     override fun onBackPressed() {
@@ -40,8 +40,9 @@ class ClientInfoActivity : AppCompatActivity() {
 
     fun onClickAdd(view: View) {
         if (currentList == 0) {
-            ClientRecyclerAdapter.selectedSIM.forEach{ mobileOperator.addSIMForClient(passport.text.toString(), it.simNumber) }
+            ClientRecyclerAdapter.selectedSIM.forEach{ mobileOperator.addSIMForClient(passport.text.toString().removePrefix("Паспорт: "), it.simNumber) }
             MainList.adapter = ClientRecyclerAdapter(mobileOperator.getAllFreeSIM(), this)
+            Toast.makeText(this, "Сим-карта(ы) привязана(ы)", Toast.LENGTH_SHORT).show()
             ClientRecyclerAdapter.selectedSIM.clear()
         } else {
             currentList = 0
@@ -51,15 +52,18 @@ class ClientInfoActivity : AppCompatActivity() {
             MainList.adapter = ClientRecyclerAdapter(mobileOperator.getAllFreeSIM(), this)
             addButton.setImageResource(R.drawable.fill_plus_ic)
             mainMenu.setImageResource(R.drawable.menu_white_ic) //
-            //removeButton.setImageResource(R.drawable.menu_white_ic)
         }
     }
 
     fun onClickRemove(view: View) {
+
+        // спросить об удалении
+
         ClientRecyclerAdapter.selectedInfo.forEach { mobileOperator.removeSIMFromClient(it.simNumber) }
+        Toast.makeText(this, "Сим-карта(ы) возвращена(ы)", Toast.LENGTH_SHORT).show()
         ClientRecyclerAdapter.selectedInfo.clear()
         centreButtonChange(false)
-        MainList.adapter = ClientRecyclerAdapter(mobileOperator.findSIMByPassport(passport.text.toString()), this)
+        MainList.adapter = ClientRecyclerAdapter(mobileOperator.findSIMByPassport(passport.text.toString().removePrefix("Паспорт: ")), this)
     }
     fun onClickBack(view: View) {
         ClientRecyclerAdapter.clearLists()
@@ -67,7 +71,8 @@ class ClientInfoActivity : AppCompatActivity() {
     }
     fun onClickMenu(view: View) {
         currentList = 1
-        MainList.adapter = ClientRecyclerAdapter(mobileOperator.findSIMByPassport(passport.text.toString()), this)
+        info.text = "сим-карты клиента"
+        MainList.adapter = ClientRecyclerAdapter(mobileOperator.findSIMByPassport(passport.text.toString().removePrefix("Паспорт: ")), this)
         addButton.setImageResource(R.drawable.plus_ic)
         mainMenu.setImageResource(R.drawable.fill_menu_white_ic)
 

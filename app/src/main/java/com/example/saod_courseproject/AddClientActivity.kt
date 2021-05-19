@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import data.Client
 import dataStructures.MyList
@@ -20,12 +21,11 @@ class AddClientActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val intent = Intent(this, MainActivity::class.java).apply {
-            putExtra("state", 0)
-        }
+        val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         super.onBackPressed()
     }
+
 
     fun onClickAdd(view: View) {
         if (fieldsIsCorrect()) {
@@ -37,9 +37,11 @@ class AddClientActivity : AppCompatActivity() {
                 address.text.toString()
             )
             mobileOperator.addNewClient(client)
+            Toast.makeText(this, "Клиент ${client.name} добавлен", Toast.LENGTH_LONG).show()
             onBackPressed()
         } else {
 
+            Toast.makeText(this, "Некорректные данные", Toast.LENGTH_SHORT).show()
             doge.animate().apply {
                 duration = 500
                 translationXBy(150F)
@@ -51,6 +53,13 @@ class AddClientActivity : AppCompatActivity() {
                     translationXBy(-150F)
                 }.start()
             }
+            view.isEnabled = false
+            object : CountDownTimer(2000, 250) {
+                override fun onTick(p0: Long) {}
+                override fun onFinish() {
+                    view.isEnabled = true
+                }
+            }.start()
         }
     }
 
@@ -64,6 +73,11 @@ class AddClientActivity : AppCompatActivity() {
         }
     }
 
+
+    // удаление пробелов из имени, адреса, места
+    // + выдача сообщения
+
+
     private fun fieldsIsCorrect(): Boolean {
         val fields = MyList<EditText>()
         if (name.text.isEmpty()) fields.add(name)
@@ -71,8 +85,8 @@ class AddClientActivity : AppCompatActivity() {
             if (yearOfBirth.text.toString().toInt() < 1900 || yearOfBirth.text.toString().toInt() > 2021) fields.add(yearOfBirth)
         } else fields.add(yearOfBirth)
         if (Regex("^\\d{4}-\\d{6}").find(passport.text) == null || !mobileOperator.findClientByPassport(passport.text.toString()).isEmpty()) fields.add(passport)
-        if (placeAndDate.text.isEmpty()) fields.add(placeAndDate)
-        if (address.text.isEmpty()) fields.add(address)
+        if (placeAndDate.text.toString().replace(" ", "").isEmpty()) fields.add(placeAndDate)
+        if (address.text.toString().replace(" ", "").isEmpty()) fields.add(address)
         return if (fields.isEmpty()) true
         else {
             highlightIncorrectFields(fields)

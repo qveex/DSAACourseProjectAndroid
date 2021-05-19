@@ -181,6 +181,7 @@ class MyList<T> : MutableList<T> {
     }
 
     fun sort(list: MyList<SIMInfo>) {
+        if (list.size < 2) return
         for (i in 0 until list.size) {
             for (j in i + 1 until list.size)
                 if (list[i].simNumber < list[j].simNumber)

@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -68,12 +69,21 @@ class MainActivity : AppCompatActivity() {
 
         MainList.adapter = ClientRecyclerAdapter(mobileOperator.getAllSIM(), this)
     }
+
+
+    // спросить об удалении клиента, если есть карты
+
+    // если сим-карта не используется - не спрашивать
+    // предупредить, если сим-карты используется
+
     fun onClickRemove(view: View) {
         if (ClientRecyclerAdapter.selectedClient.isNotEmpty()) {
             ClientRecyclerAdapter.selectedClient.forEach { mobileOperator.removeClientFromService(it.passportNumber) }
+            Toast.makeText(this, "Выбранный(ые) клиент(ы) удален(ы)", Toast.LENGTH_LONG).show()
         }
         else if (ClientRecyclerAdapter.selectedSIM.isNotEmpty()) {
             ClientRecyclerAdapter.selectedSIM.forEach { mobileOperator.removeSIM(it.simNumber) }
+            Toast.makeText(this, "Выбранная(ые) сим-карта(ы) удален(ы)", Toast.LENGTH_LONG).show()
         }
         ClientRecyclerAdapter.clearLists()
         listFilling()
@@ -82,7 +92,9 @@ class MainActivity : AppCompatActivity() {
     fun onClickRemoveAll(view: View) {
         if (ClientRecyclerAdapter.selectedClient.isNotEmpty()) mobileOperator.clearAllClients()
         else if(ClientRecyclerAdapter.selectedSIM.isNotEmpty()) mobileOperator.clearAllSIM()
+        Toast.makeText(this, "Список очищен", Toast.LENGTH_LONG).show()
         ClientRecyclerAdapter.clearLists()
+        showTopMenu()
         listFilling()
     }
 
